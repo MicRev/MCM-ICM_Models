@@ -195,3 +195,21 @@ Hermit插值
     # newx = [2.45, 1.36, 4.78]
     newy = spline(xs, ys, newx)  # 三次样条插值获得插值点的纵坐标
     print(newy)
+
+# 函数拟合
+
+使用numpy包的`polyfit()`函数和scipy包的`curve_fit()`函数进行多项式函数或任意参数函数的最小二乘拟合.
+
+## 使用例
+
+    import numpy as np
+    from scipy.optimize import curve_fit
+
+    x = ...
+    y = ...  # 待拟合的数据
+
+    f1 = np.polyfit(x, y, 3)  # 3为拟合多项式的最高次, 返回系数列表
+    p1 = np.poly1d(f1)  # p1为拟合多项式的表达式
+
+    f = lambda x, a, b, c: a * x + b ** x + c
+    pOpt, pCov = curve_fit(f, x, y)  # pOpt为最小二乘系数, pCov为各系数的协方差, 对角线即为各系数的方差
