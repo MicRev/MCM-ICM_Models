@@ -11,11 +11,15 @@ class Topsis:
     def posit(self, cols: list[int]) -> np.array:
         """将矩阵正向化, 针对极小型指标
 
-        Args:
-            cols (list[int]): 极小型指标的列号列表
+        Parameters
+        ----------
+        cols : list[int]
+            指定指标的列号列表
 
-        Returns:
-            np.array: 正向化后的矩阵
+        Returns
+        -------
+        np.array
+            正向化后的矩阵
         """
         mat = self.mat.T
         for idx in cols:
@@ -25,14 +29,19 @@ class Topsis:
     
     @overload
     def posit(self, cols: list[int], x_best) -> np.array:
-        """将矩阵正向化, 针对中间型指标
+        """"将矩阵正向化, 针对极小型指标
 
-        Args:
-            cols (list[int]): 中间型指标的列号列表
-            x_best: 预期的中间值
+        Parameters
+        ----------
+        cols : list[int]
+            指定指标的列号列表
+        x_best : float
+            预期的中间值
 
-        Returns:
-            np.array: 正向化后的矩阵
+        Returns
+        -------
+        np.array
+            正向化后的矩阵
         """
         mat = self.mat.T
         for idx in cols:
@@ -44,28 +53,34 @@ class Topsis:
     
     @overload
     def posit(self, cols: list[int], x_min, x_max) -> np.array:
-        """将矩阵正向化, 针对区间型指标
+        """将矩阵正向化, 针对极小型指标
 
-        Args:
-            cols (list[int]): 区间型指标的列号列表
-            x_min: 区间最小值
-            x_max: 区间最大值
+        Parameters
+        ----------
+        cols : list[int]
+            指定指标的列号列表
+        x_min : float
+            区间最小值
+        x_max : float
+            区间最大值
 
-        Returns:
-            np.array: 正向化后的矩阵
+        Returns
+        -------
+        np.array
+            正向化后的矩阵
         """
         mat = self.mat.T
         for idx in cols:
             M = max(x_min - min(mat[idx]), max(mat[idx] - x_max))
             array = np.array([1 if x_min <= xi <= x_max else 1 - (x_min - xi) / M if xi < x_min else 1 - (xi - x_max) / M for xi in mat[idx]])
-            """
+            '''
             if xi < x_min:
                 xi = 1 - (x_min - xi) / M
             elif x_min <= x <= x_max:
                 xi = 1
             elif x > x_max:
                 xi = 1 - (x_i - x_max) / M
-            """ 
+            '''
         self.mat = mat.T
         return mat.T
     
@@ -80,8 +95,10 @@ class Topsis:
     def score(self) -> np.array:
         """根据评价矩阵计算得分
 
-        Returns:
-            np.array: 得分向量
+        Returns
+        -------
+        np.array
+            得分向量
         """
         self._normalize()
         mat = self.mat
