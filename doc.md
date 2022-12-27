@@ -12,6 +12,7 @@
 * [遍历图的最短路径](#遍历图的最短路径)
 * [最小生成树](#最小生成树)
 * [函数拟合](#函数拟合)
+* [相关性](#相关性)
 * [Topsis 优劣解距离法](#topsis-优劣解距离法)
 
 # 层次分析法
@@ -80,19 +81,21 @@
 
 ## 使用例
 
-    from AHP import AHPModel
+```python
+from AHP import AHPModel
 
-    ahpModel = AHPModel  # 创建类对象
-    weightMat = ...  # 权重的一致矩阵
-    ahpModel.getWeight(weightMat, "g")  # 通过几何平均值求权重矩阵
-    arg1Mat = ...
-    arg2Mat = ...
-    ...
-    argMats = [arg1Mat, arg2Mat, ...]  # 不同评价指标的一致矩阵
-    ahpModel.getJudge(argMats, "e")  # 通过特征值法求得判断矩阵
-    print(ahpModel.result())  # 得到各评价目标的评分
+ahpModel = AHPModel  # 创建类对象
+weightMat = ...  # 权重的一致矩阵
+ahpModel.getWeight(weightMat, "g")  # 通过几何平均值求权重矩阵
+arg1Mat = ...
+arg2Mat = ...
+...
+argMats = [arg1Mat, arg2Mat, ...]  # 不同评价指标的一致矩阵
+ahpModel.getJudge(argMats, "e")  # 通过特征值法求得判断矩阵
+print(ahpModel.result())  # 得到各评价目标的评分
 
-    # 注意: 若输入的矩阵不是一致矩阵, 将报错. 若不确定是否为一致矩阵，请用isConsist方法判断.
+# 注意: 若输入的矩阵不是一致矩阵, 将报错. 若不确定是否为一致矩阵，请用isConsist方法判断.
+```
 
 # 蚁群算法
 
@@ -117,19 +120,21 @@
 
 ## 使用例
 
-    import numpy as np
-    from sko.ACA import ACA_TSP
-    from Ants import calTotalDistance, getMatrix
+```python
+import numpy as np
+from sko.ACA import ACA_TSP
+from Ants import calTotalDistance, getMatrix
 
-    distance_matrix = getMatrix(
-        np.array([[0, 0],
-                  [0, 1],
-                  [2, 3],
-                  [3, 0]])
-    )
-    aca = ACA_TSP(func=calTotalDistance, n_dim=4, size_pop=50, max_iter=100, distance_matrix=distance_matrix)
-    bestX, bestY = aca.run()
-    print(bestX)
+distance_matrix = getMatrix(
+    np.array([[0, 0],
+              [0, 1],
+              [2, 3],
+              [3, 0]])
+)
+aca = ACA_TSP(func=calTotalDistance, n_dim=4, size_pop=50, max_iter=100, distance_matrix=distance_matrix)
+bestX, bestY = aca.run()
+print(bestX)
+```
 
 # 图结构
 
@@ -243,10 +248,11 @@ $$
 
 ## 使用例
 
-    from GreyModel import GM
-    x = np.array([...])
-    res = GM(x, order=2)  # 使用二阶微分方程拟合
-
+```python
+from GreyModel import GM
+x = np.array([...])
+res = GM(x, order=2)  # 使用二阶微分方程拟合
+```
 
 # 插值法
 
@@ -288,42 +294,47 @@ Hermit插值
 
 ## 使用例
 
-    from interpolation import spline, pchip
+```python
+from interpolation import spline, pchip
 
-    xs = np.array([...])
-    ys = np.array([...])  # 已知点的坐标
-    newx = 2.45
-    # newx = [2.45, 1.36, 4.78]
-    newy = spline(xs, ys, newx)  # 三次样条插值获得插值点的纵坐标
-    print(newy)
+xs = np.array([...])
+ys = np.array([...])  # 已知点的坐标
+newx = 2.45
+# newx = [2.45, 1.36, 4.78]
+newy = spline(xs, ys, newx)  # 三次样条插值获得插值点的纵坐标
+print(newy)
+```
 
 # 线性规划
 
 使用scipy.optimize包中的linprog函数求解线性规划问题.
 
 ## 使用例
-    from scipy.optimize import linprog
 
-    c = [-1, -2]
-    A_ub = [[2, 1],
-            [-4, 5],
-            [1, -2]]
-    b_ub = [20, 10, 2]
-    A_eq = [[-1, 5]]
-    b_eq = [15]
+```python
+from scipy.optimize import linprog
 
-    res = linprog(c, A_ub, b_ub, A_eq, b_eq)
-    print(res)
-    print(res.x)
+c = [-1, -2]
+A_ub = [[2, 1],
+        [-4, 5],
+        [1, -2]]
+b_ub = [20, 10, 2]
+A_eq = [[-1, 5]]
+b_eq = [15]
 
-    # .con 是等式约束残差。
-    # .fun 是最优的目标函数值（如果找到）。
-    # .message 是解决方案的状态。
-    # .nit 是完成计算所需的迭代次数。
-    # .slack 是松弛变量的值，或约束左右两侧的值之间的差异。
-    # .status是一个介于0和之间的整数4，表示解决方案的状态，例如0找到最佳解决方案的时间。
-    # .success是一个布尔值，显示是否已找到最佳解决方案。
-    # .x 是一个保存决策变量最优值的 NumPy 数组。
+res = linprog(c, A_ub, b_ub, A_eq, b_eq)
+print(res)
+print(res.x)
+
+# .con 是等式约束残差。
+# .fun 是最优的目标函数值（如果找到）。
+# .message 是解决方案的状态。
+# .nit 是完成计算所需的迭代次数。
+# .slack 是松弛变量的值，或约束左右两侧的值之间的差异。
+# .status是一个介于0和之间的整数4，表示解决方案的状态，例如0找到最佳解决方案的时间。
+# .success是一个布尔值，显示是否已找到最佳解决方案。
+# .x 是一个保存决策变量最优值的 NumPy 数组。
+```
 
 # 整数线性规划
 
@@ -369,12 +380,14 @@ Hermit插值
 
 ## 使用例
 
-    c = np.array([-3, -2])
-    A_ub = np.array([[2, 3],
-                     [2, 1]])
-    b_ub = np.array([14, 9])
-    ans = BranchBoard(c, A_ub, b_ub)
-    print(ans)
+```python
+c = np.array([-3, -2])
+A_ub = np.array([[2, 3],
+                 [2, 1]])
+b_ub = np.array([14, 9])
+ans = BranchBoard(c, A_ub, b_ub)
+print(ans)
+```
 
 # 遍历图的最短路径
 
@@ -399,14 +412,16 @@ Hermit插值
 
 ## 使用例
 
-    from MinPath import dijkstra()
-    from graph import Graph
+```python
+from MinPath import dijkstra()
+from graph import Graph
 
-    graph = Graph(6)
-    A = np.array(...)  # 图的邻接矩阵
-    graph.generate(A)
-    shortest = dijkstra(graph, 0)
-    print(shortest.getAdjMatrix())
+graph = Graph(6)
+A = np.array(...)  # 图的邻接矩阵
+graph.generate(A)
+shortest = dijkstra(graph, 0)
+print(shortest.getAdjMatrix())
+```
 
 # 最小生成树
 
@@ -431,14 +446,16 @@ Hermit插值
 
 ## 使用例
 
-    from MinSpawnTree import prim
-    from graph import Graph
+```python
+from MinSpawnTree import prim
+from graph import Graph
 
-    graph = Graph(6)
-    A = np.array(...)
-    graph.generate(A)
-    new_graph = prim(graph)
-    print(new_graph.getAdjMatrix())
+graph = Graph(6)
+A = np.array(...)
+graph.generate(A)
+new_graph = prim(graph)
+print(new_graph.getAdjMatrix())
+```
 
 # 函数拟合
 
@@ -446,17 +463,37 @@ Hermit插值
 
 ## 使用例
 
-    import numpy as np
-    from scipy.optimize import curve_fit
+```python
+import numpy as np
+from scipy.optimize import curve_fit
 
-    x = ...
-    y = ...  # 待拟合的数据
+x = ...
+y = ...  # 待拟合的数据
 
-    f1 = np.polyfit(x, y, 3)  # 3为拟合多项式的最高次, 返回系数列表
-    p1 = np.poly1d(f1)  # p1为拟合多项式的表达式
+f1 = np.polyfit(x, y, 3)  # 3为拟合多项式的最高次, 返回系数列表
+p1 = np.poly1d(f1)  # p1为拟合多项式的表达式
 
-    f = lambda x, a, b, c: a * x + b ** x + c
-    pOpt, pCov = curve_fit(f, x, y)  # pOpt为最小二乘系数, pCov为各系数的协方差, 对角线即为各系数的方差
+f = lambda x, a, b, c: a * x + b ** x + c
+pOpt, pCov = curve_fit(f, x, y)  # pOpt为最小二乘系数, pCov为各系数的协方差, 对角线即为各系数的方差
+```
+
+# 相关性
+
+使用`scipy.stats`包中的`pearsonr()`函数和`spearmanr()`函数分别计算两列数据的pearson相关系数和spearman相关系数。
+
+## 使用例
+
+```python
+
+import scipy.stats
+
+x = [...]
+y = [...]  # 待检验的两列数据
+
+print(scipy.stats.pearsonr(x, y)[0])  # pearson相关系数
+print(scipy.stats.spearmanr(x, y)[0])  # spearman相关系数
+
+```
 
 # Topsis 优劣解距离法
 
@@ -509,12 +546,14 @@ Hermit插值
 
 ## 使用例
 
-    from topsis import Topsis
+```python
+from topsis import Topsis
 
-    t = Topsis  # 创建类对象
-    t.mat = np.array(...
-                     ...)  # 输入原始数据矩阵
-    t.posit([0, 2, ...])  # 极小型指标的正向化
-    t.posit([1, 3, ...], x_best=10)  # 中间型指标的正向化
-    t.posit([4, 5, ...], x_min=2, x_max=7)  # 区间型指标的正向化
-    print(t.score())  # 计算评价结果   
+t = Topsis  # 创建类对象
+t.mat = np.array(...
+                    ...)  # 输入原始数据矩阵
+t.posit([0, 2, ...])  # 极小型指标的正向化
+t.posit([1, 3, ...], x_best=10)  # 中间型指标的正向化
+t.posit([4, 5, ...], x_min=2, x_max=7)  # 区间型指标的正向化
+print(t.score())  # 计算评价结果  
+``` 
