@@ -84,7 +84,7 @@
 ```python
 from AHP import AHPModel
 
-ahpModel = AHPModel  # 创建类对象
+ahpModel = AHPModel()  # 创建类对象
 weightMat = ...  # 权重的一致矩阵
 ahpModel.getWeight(weightMat, "g")  # 通过几何平均值求权重矩阵
 arg1Mat = ...
