@@ -3,7 +3,7 @@ import numpy as np
 
 
 def dijkstra(graph: Graph, start: int):  # must use BFS instead of DFS otherwise you will be trapped in a branch path
-    """由图中某一个点开始找到遍历图的最短路径.
+    """由图中某一个点开始找到图中每个节点的最短路径.
 
     Parameters
     ----------
