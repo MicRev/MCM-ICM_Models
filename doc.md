@@ -4,6 +4,7 @@
 
 * [层次分析法](#层次分析法)
 * [蚁群算法](#蚁群算法)
+* [典型相关分析]
 * [图结构](#图结构)
 * [灰色预测模型](#灰色预测模型)
 * [插值法](#插值法)
@@ -83,6 +84,7 @@
 
 ```python
 from AHP import AHPModel
+import numpy as np
 
 ahpModel = AHPModel()  # 创建类对象
 weightMat = ...  # 权重的一致矩阵
@@ -134,6 +136,47 @@ distance_matrix = getMatrix(
 aca = ACA_TSP(func=calTotalDistance, n_dim=4, size_pop=50, max_iter=100, distance_matrix=distance_matrix)
 bestX, bestY = aca.run()
 print(bestX)
+```
+
+# 典型相关分析
+
+分析多维自变量$x$和多维因变量$y$之间的相互作用, 通过寻找若干对典型变量$U$, $V$, 使得
+
+$$
+U_i = \sum_{j} a_{ij}x_j,~
+V_i = \sum_{j} b_{ij}y_j
+$$
+
+之间有最大的相关系数, 且不同组的典型相关变量之间相关系数为0.
+
+[CCA.py](CCA.py)
+
+## 内置函数
+
+### CCA()
+
+由自变量样本矩阵x和因变量样本矩阵y得到若干对典型相关变量
+
+**Args**:
+
+`x_dataset : np.array` 自变量样本矩阵, 大小为n * t, n为自变量维数, t为样本数量
+`y_dataset : np.array` 因变量样本矩阵, 大小为m * t, m为因变量维数, t为样本数量
+
+**Returns**:
+
+`list[tuple[float, np.array, np.array]]` 每一对典型相关变量的列表, 其中每一对典型相关变量用三个参数表示: 相关系数, 自变量系数, 因变量系数
+
+## 使用例
+
+```python
+from CCA import CCA
+import numpy as np
+
+x = np.array(...)
+y = np.array(...)  # 数据矩阵
+
+res = CCA(x, y)
+print(res[0])  # 相关系数最大的典型相关系数
 ```
 
 # 图结构
@@ -250,6 +293,8 @@ $$
 
 ```python
 from GreyModel import GM
+import numpy as np
+
 x = np.array([...])
 res = GM(x, order=2)  # 使用二阶微分方程拟合
 ```
@@ -295,6 +340,7 @@ Hermit插值
 ## 使用例
 
 ```python
+import numpy as np
 from interpolation import spline, pchip
 
 xs = np.array([...])
@@ -381,6 +427,9 @@ print(res.x)
 ## 使用例
 
 ```python
+import numpy as np
+from IntLinProg import BranchBoard
+
 c = np.array([-3, -2])
 A_ub = np.array([[2, 3],
                  [2, 1]])
@@ -413,6 +462,7 @@ print(ans)
 ## 使用例
 
 ```python
+import numpy as np
 from MinPath import dijkstra()
 from graph import Graph
 
@@ -447,6 +497,7 @@ print(shortest.getAdjMatrix())
 ## 使用例
 
 ```python
+import numpy as np
 from MinSpawnTree import prim
 from graph import Graph
 
@@ -547,11 +598,12 @@ print(scipy.stats.spearmanr(x, y)[0])  # spearman相关系数
 ## 使用例
 
 ```python
+import numpy as np
 from topsis import Topsis
 
 t = Topsis  # 创建类对象
 t.mat = np.array(...
-                    ...)  # 输入原始数据矩阵
+                 ...)  # 输入原始数据矩阵
 t.posit([0, 2, ...])  # 极小型指标的正向化
 t.posit([1, 3, ...], x_best=10)  # 中间型指标的正向化
 t.posit([4, 5, ...], x_min=2, x_max=7)  # 区间型指标的正向化
