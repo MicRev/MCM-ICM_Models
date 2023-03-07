@@ -4,3 +4,4 @@ TODO.*
 *.md
 !README.md
 !doc.md
+Reference/*
