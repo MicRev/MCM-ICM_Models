@@ -1,7 +1,6 @@
 test.py
 LDA.py
 TODO.*
-*.md
 !README.md
 !doc.md
 Reference/*
